@@ -88,6 +88,7 @@ namespace Memory_Manager
                     )
                 )
             );
+            docProjects.Add(xmlData);
             docProjects.Save(path);
             
             
