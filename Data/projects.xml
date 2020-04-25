@@ -1,0 +1,30 @@
+<projects>
+  <project name="name1" intern="True">
+    <directorys>
+      <OriginalPath>C:\Test\ordner1</OriginalPath>
+      <ExternPath>D:\Test\ordner1</ExternPath>
+    </directorys>
+  </project>
+  <project name="name2" intern="True">
+    <directorys>
+      <OriginalPath>C:\Test\ordner2</OriginalPath>
+      <ExternPath>D:\Test\ordner2</ExternPath>
+    </directorys>
+  </project>
+  <project name="name3_4" intern="True">
+    <directorys>
+      <OriginalPath>C:\Test\ordner3</OriginalPath>
+      <ExternPath>D:\Test\ordner3</ExternPath>
+    </directorys>
+    <directorys>
+      <OriginalPath>C:\Test\ordner4</OriginalPath>
+      <ExternPath>D:\Test\ordner4</ExternPath>
+    </directorys>
+  </project>
+  <project name="Test5" intern="True">
+    <directorys>
+      <OriginalPath>Test5</OriginalPath>
+      <ExternPath>Test5</ExternPath>
+    </directorys>
+  </project>
+</projects>
