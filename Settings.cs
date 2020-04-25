@@ -5,8 +5,8 @@ namespace Memory_Manager
 {
     public class Settings
     {
-        private string _standardOriginalPath;
-        private string _standardExternPath;
+        private string _standardOriginalPath = "";
+        private string _standardExternPath = "";
 
         public string OriginalPath 
         {

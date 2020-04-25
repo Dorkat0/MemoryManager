@@ -24,7 +24,7 @@ namespace Memory_Manager
             bool exit = false;
             while (!exit)
             {
-                Console.WriteLine("s.. settings\na..Add Project\nc..choose Project\nl..list all projects\nx..exit");
+                Console.WriteLine("\ns.. settings\na..Add Project\nc..choose Project\nl..list all projects\nx..exit");
                 string selected;
                 selected = Console.ReadLine();
                 switch (selected)
@@ -68,16 +68,17 @@ namespace Memory_Manager
 
         private static void HandleProject(Project project)
         {
-            Console.WriteLine(project.Name + " currently " + (project.Intern ? " intern" : " extern"));
-            Console.WriteLine("a.. add directories to project");
-            Console.WriteLine("l.. list all directories from project");
-            Console.WriteLine("d.. delete directories from project");
-            Console.WriteLine("c.. switch Intern/Extern");
+
 
             string selected;
             bool exitProject = false;
             while (!exitProject)
             {
+                Console.WriteLine(project.Name + " currently " + (project.Intern ? " intern" : " extern"));
+                Console.WriteLine("a.. add directories to project");
+                Console.WriteLine("l.. list all directories from project");
+                Console.WriteLine("d.. delete directories from project");
+                Console.WriteLine("c.. switch Intern/Extern");
                 selected = Console.ReadLine();
                 switch (selected)
                 {
@@ -101,7 +102,7 @@ namespace Memory_Manager
                         exitProject = true;
                         break;
                     default:
-                        Console.WriteLine("You have to enter s, a, or c");
+                        Console.WriteLine("You have to enter s, a, c or x");
                         break;
                 }
             }

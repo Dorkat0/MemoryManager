@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -10,26 +12,26 @@ namespace Memory_Manager
     public static class InExport
     {
 
-        
-        private static XmlDocument docSettings = new XmlDocument();
-        private static XmlDocument docProjects = new XmlDocument();
+
+        private static XDocument docSettings;
+        private static XDocument docProjects;
 
         public static Settings ImportSettings(string path)
         {
             Settings settings = new Settings();
             //set up settings
 
-            docSettings.Load(path);
-
+            docSettings = XDocument.Load(path);
+            
             //load standard settings
-            if (docSettings.DocumentElement != null)
+            if (docSettings != null)
             {
-                settings.OriginalPath = docSettings.DocumentElement.SelectSingleNode("standardOriginalPath")?.InnerText;
-                settings.OriginalPath = docSettings.DocumentElement.SelectSingleNode("standardExternPath")?.InnerText;
+                settings.OriginalPath = docSettings.Root.Element("standardOriginalPath").Value;
+                settings.ExternPath = docSettings.Root.Element("standardExternPath").Value;
                 return settings;
-            }
-            else
+            } else
             {
+                //TODO why is else not active
                 throw new InvalidDataException("The Setting.xml file is not correct");
             }
         }
@@ -38,28 +40,26 @@ namespace Memory_Manager
         {
             //set up Projects
             List<Project> projects = new List<Project>();
-            docProjects.Load(pathProjects);
+            docProjects = XDocument.Load(pathProjects);
 
             //load Projects
-            if (docProjects.DocumentElement != null)
+            if (docProjects != null)
             {
-                foreach (XmlNode projectNode in docProjects.DocumentElement.ChildNodes)
+                foreach (XElement projectNode in docProjects.Descendants("project"))
                 {
-                    Project project = new Project(projectNode.Attributes["name"].Value, projectNode.Attributes["intern"].Value.Equals("True"));
-                    foreach (XmlNode dir in projectNode.ChildNodes)
+                    Project project = new Project(projectNode.Attribute("name").Value,
+                        projectNode.Attribute("intern").Value.Equals("True"));
+                    foreach (XElement dir in projectNode.Descendants("directories"))
                     {
-                        project.AddDirectory(
-                            dir.SelectSingleNode("OriginalPath")?.InnerText,
-                            dir.SelectSingleNode("ExternPath")?.InnerText);
+                        project.AddDirectory(dir.Descendants("OriginalPath").ToString(), dir.Descendants("ExternPath").ToString());
                     }
-
                     projects.Add(project);
                 }
-
                 return projects;
             }
             else
             {
+                //TODO why is else not active
                 throw new InvalidDataException("The projects.xml file is not correct");
             }
 
@@ -67,15 +67,32 @@ namespace Memory_Manager
 
         public static void ExportSettings(Settings settings)
         {
-            docSettings.DocumentElement.SelectSingleNode("standardOriginalPath").InnerText = settings.OriginalPath;
-            docSettings.DocumentElement.SelectSingleNode("standardExternPath").InnerText = settings.ExternPath;
+            docSettings.Root.Element("standardOriginalPath").Value = settings.OriginalPath;
+            docSettings.Root.Element("standardExternPath").Value = settings.ExternPath;
         }
-
+ 
         public static void ExportProjects(List<Project> projects, string path)
         {
-            docProjects.RemoveAll();
+            XDocument docProjects = new XDocument();
+            //docProjects.Root.RemoveAll();
             //XmlDocument docProjects = new XmlDocument();
-            XmlElement root = docProjects.CreateElement("projects");
+            XElement xmlData = new XElement("projects",
+                from proj in projects
+                select new XElement("project",
+                    new XAttribute("name", proj.Name),
+                    new XAttribute("intern", proj.Intern.ToString()),
+                    from dir in proj.Directories
+                    select new XElement("directories",
+                        new XElement("OriginalPath", dir.Item1),
+                        new XElement("ExternPath", dir.Item2)
+                    )
+                )
+            );
+            docProjects.Save(path);
+            
+            
+            
+            /*XElement root = docProjects.CreateElement("projects");
             docProjects.AppendChild(root);
             foreach (Project project in projects)
             {
@@ -97,7 +114,7 @@ namespace Memory_Manager
                 root.AppendChild(projectNode);
             }
             docProjects.AppendChild(root);
-            docProjects.Save(path);
+            docProjects.Save(path);*/
         }
     }
 }
