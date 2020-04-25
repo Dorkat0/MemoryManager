@@ -79,6 +79,7 @@ namespace Memory_Manager
                 Console.WriteLine("l.. list all directories from project");
                 Console.WriteLine("d.. delete directories from project");
                 Console.WriteLine("c.. switch Intern/Extern");
+                Console.WriteLine("x.. leave project");
                 selected = Console.ReadLine();
                 switch (selected)
                 {
@@ -120,13 +121,12 @@ namespace Memory_Manager
 
         public static void ChangeSettings(Settings settings)
         {
-            Console.WriteLine("o.. change original path");
-            Console.WriteLine("e.. change external path");
             string selected;
-
             bool exitSettings = false;
             while (!exitSettings)
             {
+                Console.WriteLine("\no.. change original path");
+                Console.WriteLine("e.. change external path");
                 selected = Console.ReadLine();
                 switch (selected)
                 {

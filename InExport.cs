@@ -11,8 +11,6 @@ namespace Memory_Manager
 {
     public static class InExport
     {
-
-
         private static XDocument docSettings;
         private static XDocument docProjects;
 
@@ -51,7 +49,7 @@ namespace Memory_Manager
                         projectNode.Attribute("intern").Value.Equals("True"));
                     foreach (XElement dir in projectNode.Descendants("directories"))
                     {
-                        project.AddDirectory(dir.Descendants("OriginalPath").ToString(), dir.Descendants("ExternPath").ToString());
+                        project.AddDirectory(dir.Element("OriginalPath").Value, dir.Element("ExternPath").Value);
                     }
                     projects.Add(project);
                 }
@@ -74,8 +72,6 @@ namespace Memory_Manager
         public static void ExportProjects(List<Project> projects, string path)
         {
             XDocument docProjects = new XDocument();
-            //docProjects.Root.RemoveAll();
-            //XmlDocument docProjects = new XmlDocument();
             XElement xmlData = new XElement("projects",
                 from proj in projects
                 select new XElement("project",
@@ -90,32 +86,6 @@ namespace Memory_Manager
             );
             docProjects.Add(xmlData);
             docProjects.Save(path);
-            
-            
-            
-            /*XElement root = docProjects.CreateElement("projects");
-            docProjects.AppendChild(root);
-            foreach (Project project in projects)
-            {
-                XmlElement projectNode = docProjects.CreateElement("project");
-                projectNode.SetAttribute("name", project.Name);
-                projectNode.SetAttribute("intern", project.Intern.ToString());
-                foreach (Tuple<string, string> t in project.Directories)
-                {
-                    XmlElement dirNode = docProjects.CreateElement("directories");
-                    XmlElement origNode = docProjects.CreateElement("OriginalPath");
-                    XmlElement extNode = docProjects.CreateElement("ExternPath");
-                    origNode.InnerText = t.Item1;
-                    extNode.InnerText = t.Item2;
-
-                    dirNode.AppendChild(origNode);
-                    dirNode.AppendChild(extNode);
-                    projectNode.AppendChild(dirNode);
-                }
-                root.AppendChild(projectNode);
-            }
-            docProjects.AppendChild(root);
-            docProjects.Save(path);*/
         }
     }
 }
