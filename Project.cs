@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection.Emit;
-using System.Xml.Linq;
 
 namespace Memory_Manager
 {
     public class Project
     {
         private List<Tuple<string, string>> directories = new List<Tuple<string, string>>();
-        private string name;
-        private bool intern;
+        private string name;        //project name
+        private bool intern;        //currently the files are intern / extern stored
 
         public Project(string name, bool intern)
         {
@@ -43,10 +40,32 @@ namespace Memory_Manager
             intern = !intern;
             
         }
+        
+        public void PrintsAllDirectories()
+        {
+            int i = 0;
+            foreach (var variable in directories)
+            {
+                Console.WriteLine(i + ": " + variable.Item1 +" " + variable.Item2);
+            }
+        }
 
+        public void RemoveDirectory()
+        {
+            PrintsAllDirectories();
+            Console.WriteLine("enter the index of the directory that you want to delete");
+            try
+            {
+                directories.RemoveAt(Convert.ToInt32(Console.ReadLine()));        //deletes the dir
+            }
+            catch (Exception e){
+                throw new Exception("could not cast input");
+            }
+        }
+        
         private static void DirectoryMove(string sourceDirName, string destDirName, bool copySubDirs)
         {
-            //from https://docs.microsoft.com/en-us/dotnet/standard/io/how-to-copy-directories
+            //from https://docs.microsoft.com/en-us/dotnet/standard/io/how-to-copy-directories adapted
             
             // Get the subdirectories for the specified directory.
             DirectoryInfo dir = new DirectoryInfo(sourceDirName);
@@ -84,7 +103,10 @@ namespace Memory_Manager
                 }
             }
         }
-    
+
+        
+        //geter & Setter
+
         public string Name
         {
             get => name;
@@ -102,30 +124,6 @@ namespace Memory_Manager
             get => directories;
             set => directories = value;
         }
-
-        public void ListAllDirectories()
-        {
-            int i = 0;
-            foreach (var variable in directories)
-            {
-                Console.WriteLine(i + ": " + variable.Item1 +" " + variable.Item2);
-            }
-        }
-
-        public void RemoveDirectory()
-        {
-            int i = 0;
-            foreach (var variable in directories)
-            {
-                Console.WriteLine(i + ": " + variable.Item1 +" " + variable.Item2);
-            }
-            Console.WriteLine("enter the index of the directory that you want to delete");
-            int index = Convert.ToInt32(Console.ReadLine()); 
-            //TODO Error handling
-            directories.RemoveAt(index);
-        }
-        
-        
         
     }
 }

@@ -2,63 +2,63 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace Memory_Manager
 {
     internal static class Program
     {
-        private static readonly string pathSettings = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName +
-                                                      "./Data/settings.xml";
+        //storage of the project and the settings
+        private static readonly string PathSettings =
+            Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName +
+            "./Data/settings.xml";
 
-        private static readonly string pathProjects = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName +
-                                                      "./Data/projects.xml";
+        private static readonly string PathProjects =
+            Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName +
+            "./Data/projects.xml";
 
         public static void Main(string[] args)
         {
-            //import
-            Settings settings = InExport.ImportSettings(pathSettings);
-            List<Project> projects = InExport.ImportProjects(pathProjects);
+            //import settings and projects
+            Settings settings = InExport.ImportSettings(PathSettings);
+            List<Project> projects = InExport.ImportProjects(PathProjects);
 
             Console.WriteLine("Memory Manager");
 
+            //-----------Main UI---------------
             bool exit = false;
             while (!exit)
             {
-                Console.WriteLine("\ns.. settings\na..Add Project\nc..choose Project\nl..list all projects\nx..exit");
-                string selected;
-                selected = Console.ReadLine();
-                switch (selected)
+                Console.WriteLine("\ns.. settings\na..add project\nc..choose project\nl..list all projects\nx..exit");
+                switch (Console.ReadLine()) //loop until x is pressed
                 {
-                    case "s":
+                    case "s": //settings
                         ChangeSettings(settings);
                         break;
-                    case "a":
+                    case "a": //add project
                         Console.WriteLine("Enter the project name");
                         projects.Add(new Project(Console.ReadLine(), true));
                         HandleProject(projects.Last());
                         break;
-                    case "c":
+                    case "c": //chose project
                         PrintProjectList(projects);
                         Console.WriteLine("enter the index of the chosen project");
-                        int index = Convert.ToInt32(Console.ReadLine());
-                        HandleProject(projects[index]);
-                        //TODO check cast
+                        HandleProject(projects[CheckIntInput()]);
                         break;
-                    case "d":
+                    case "d": //delete project
                         PrintProjectList(projects);
                         Console.WriteLine("enter the index of the project you want to delete");
-                        projects.RemoveAt(Convert.ToInt32(Console.ReadLine()));
-                        //TODO check cast
+                        projects.RemoveAt(CheckIntInput());
                         break;
-                    case "l":
+                    case "l": //list projects
                         PrintProjectList(projects);
                         break;
-                    case "x":
+                    case "x": //save an exit programm
                         InExport.ExportSettings(settings);
-                        InExport.ExportProjects(projects, pathProjects);
+                        InExport.ExportProjects(projects, PathProjects);
                         exit = true;
                         break;
-                    default:
+                    default: //wrong input
                         Console.WriteLine("You have to enter s, a, c, l, x");
                         break;
                 }
@@ -66,50 +66,44 @@ namespace Memory_Manager
         }
 
 
-        private static void HandleProject(Project project)
+        private static void HandleProject(Project project) //chose project
         {
-
-
-            string selected;
             bool exitProject = false;
-            while (!exitProject)
+            while (!exitProject) //loop until x is pressed
             {
-                Console.WriteLine(project.Name + " currently " + (project.Intern ? " intern" : " extern"));
-                Console.WriteLine("a.. add directories to project");
-                Console.WriteLine("l.. list all directories from project");
-                Console.WriteLine("d.. delete directories from project");
-                Console.WriteLine("c.. switch Intern/Extern");
-                Console.WriteLine("x.. leave project");
-                selected = Console.ReadLine();
-                switch (selected)
+                Console.WriteLine(project.Name + " currently " + (project.Intern ? " intern" : " extern")+
+                        "\na.. add directories to project\nl.. list all directories from project" +
+                        "\nd.. delete directories from project\nc.. switch Intern/Extern\nx.. leave project"
+                    );
+
+                switch (Console.ReadLine())
                 {
-                    case "a":
+                    case "a":        //add dir
                         Console.WriteLine("Enter the original directory:");
                         string orig = UserInputPath();
                         Console.WriteLine("Enter the external directory:");
-                        string ext = UserInputPath();
-                        project.AddDirectory(orig, ext);
+                        project.AddDirectory(orig, UserInputPath());
                         break;
-                    case "l":
-                        project.ListAllDirectories();
+                    case "l":    //list dir
+                        project.PrintsAllDirectories();
                         break;
-                    case "d":
+                    case "d":    //delete dir
                         project.RemoveDirectory();
                         break;
-                    case "c":
+                    case "c":    //chose dir
                         project.SwitchInternExtern();
                         break;
-                    case "x":
+                    case "x":    //exit
                         exitProject = true;
                         break;
-                    default:
+                    default:    //wrong input
                         Console.WriteLine("You have to enter s, a, c or x");
                         break;
                 }
             }
         }
 
-        private static void PrintProjectList(List<Project> projects)
+        private static void PrintProjectList(List<Project> projects)        //prints the projects with "index"
         {
             int i = 0;
             foreach (var p in projects)
@@ -119,18 +113,16 @@ namespace Memory_Manager
             }
         }
 
-        public static void ChangeSettings(Settings settings)
+        private static void ChangeSettings(Settings settings)        //change settings in the class (not in the xml file)
         {
-            string selected;
             bool exitSettings = false;
             while (!exitSettings)
             {
                 Console.WriteLine("\no.. change original path");
                 Console.WriteLine("e.. change external path");
-                selected = Console.ReadLine();
-                switch (selected)
+                switch (Console.ReadLine())
                 {
-                    case "o":
+                    case "o":    
                         settings.OriginalPath = UserInputPath();
                         break;
                     case "e":
@@ -146,16 +138,31 @@ namespace Memory_Manager
             }
         }
 
-        private static string UserInputPath()
+        private static string UserInputPath()            //takes the path and validates it
         {
             Console.WriteLine("Enter the Path");
             string path = Console.ReadLine();
-            //TODO check if path is correct
-
+            while (!Directory.Exists(path))
+            {
+                Console.WriteLine("The path is not valid, please enter another path:");
+                path = Console.ReadLine();
+            }
             return path;
         }
+
+        private static int CheckIntInput()        //tries to cast the user input into an int
+        {
+            while (true)    //TODO not ideal
+            {
+                try
+                {
+                    return Convert.ToInt32(Console.ReadLine());        
+                }
+                catch (InvalidCastException)
+                {
+                    Console.WriteLine("please enter an valid integer:");
+                }
+            }
+        }
     }
-
-
-    //Check calling/Naming convention
 }

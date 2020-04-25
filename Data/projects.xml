@@ -27,5 +27,9 @@
       <OriginalPath>D:\Test\ordner5</OriginalPath>
       <ExternPath>E:\Test\ordner5</ExternPath>
     </directories>
+    <directories>
+      <OriginalPath>D:/Test</OriginalPath>
+      <ExternPath>D:/Test</ExternPath>
+    </directories>
   </project>
 </projects>

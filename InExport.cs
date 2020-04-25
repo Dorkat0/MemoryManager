@@ -12,13 +12,10 @@ namespace Memory_Manager
     public static class InExport
     {
         private static XDocument docSettings;
-        private static XDocument docProjects;
 
         public static Settings ImportSettings(string path)
         {
             Settings settings = new Settings();
-            //set up settings
-
             docSettings = XDocument.Load(path);
             
             //load standard settings
@@ -38,7 +35,7 @@ namespace Memory_Manager
         {
             //set up Projects
             List<Project> projects = new List<Project>();
-            docProjects = XDocument.Load(pathProjects);
+            XDocument docProjects = XDocument.Load(pathProjects);
 
             //load Projects
             if (docProjects != null)

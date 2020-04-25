@@ -5,18 +5,18 @@ namespace Memory_Manager
 {
     public class Settings
     {
-        private string _standardOriginalPath = "";
-        private string _standardExternPath = "";
+        private string standardOriginalPath = "";
+        private string standardExternPath = "";
 
         public string OriginalPath 
         {
             set
             {
-                _standardOriginalPath = value;
+                standardOriginalPath = value;
             }
             get
             {
-                return _standardExternPath;
+                return standardOriginalPath;
             }
         }
 
@@ -24,11 +24,11 @@ namespace Memory_Manager
         {
             set
             {
-                _standardExternPath = value;
+                standardExternPath = value;
             }
             get
             {
-                return _standardExternPath;
+                return standardExternPath;
             }
         }
     }
