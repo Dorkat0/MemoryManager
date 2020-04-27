@@ -29,7 +29,7 @@ namespace Memory_Manager
             bool exit = false;
             while (!exit)
             {
-                Console.WriteLine("\ns.. settings\na..add project\nc..choose project\nl..list all projects\nx..exit");
+                Console.WriteLine("\ns.. settings\na.. add project\nc.. choose project\nd.. delete project\nl.. list all projects\nx.. exit");
                 switch (Console.ReadLine()) //loop until x is pressed
                 {
                     case "s": //settings
@@ -73,7 +73,7 @@ namespace Memory_Manager
             {
                 Console.WriteLine(project.Name + " currently " + (project.Intern ? " intern" : " extern")+
                         "\na.. add directories to project\nl.. list all directories from project" +
-                        "\nd.. delete directories from project\nc.. switch Intern/Extern\nx.. leave project"
+                        "\nd.. delete directories from project\ns.. switch Intern/Extern\nx.. leave project"
                     );
 
                 switch (Console.ReadLine())
@@ -90,7 +90,7 @@ namespace Memory_Manager
                     case "d":    //delete dir
                         project.RemoveDirectory();
                         break;
-                    case "c":    //chose dir
+                    case "s":    //switch intern extern
                         project.SwitchInternExtern();
                         break;
                     case "x":    //exit
@@ -120,6 +120,7 @@ namespace Memory_Manager
             {
                 Console.WriteLine("\no.. change original path");
                 Console.WriteLine("e.. change external path");
+                Console.WriteLine("x.. exit settings");
                 switch (Console.ReadLine())
                 {
                     case "o":    

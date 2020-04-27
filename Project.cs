@@ -27,14 +27,21 @@ namespace Memory_Manager
             {        //from intern to extern
                 foreach (Tuple<string, string> dir in directories)
                 {
-                    DirectoryMove(dir.Item1, dir.Item2, true);
+                    //Console.WriteLine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName + "\\" + dir.Item1 );
+                    DirectoryMove(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName +"\\" +
+                                  dir.Item1, Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName+ "\\" +
+                                    dir.Item2, true);        //for testing
+                    //DirectoryMove(dir.Item1, dir.Item2, true);        //original
                 }
             }
             else
             {       //from extern to intern
                 foreach (Tuple<string, string> dir in directories)
                 {
-                    DirectoryMove(dir.Item2, dir.Item1, true);
+                    DirectoryMove(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName+ "\\" +
+                                  dir.Item2, Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName+ "\\" +
+                                    dir.Item1, true);    //for testing
+                    //DirectoryMove(dir.Item2, dir.Item1, true);    //original
                 }
             }
             intern = !intern;
@@ -67,6 +74,8 @@ namespace Memory_Manager
         {
             //from https://docs.microsoft.com/en-us/dotnet/standard/io/how-to-copy-directories adapted
             
+            Console.WriteLine("move: " + sourceDirName + "\n to: " + destDirName);
+
             // Get the subdirectories for the specified directory.
             DirectoryInfo dir = new DirectoryInfo(sourceDirName);
 

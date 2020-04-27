@@ -2,34 +2,34 @@
 <projects>
   <project name="name1" intern="True">
     <directories>
-      <OriginalPath>D:\Test\ordner1</OriginalPath>
-      <ExternPath>E:\Test\ordner1</ExternPath>
+      <OriginalPath>D\Test\ordner1</OriginalPath>
+      <ExternPath>E\Test\ordner1</ExternPath>
     </directories>
   </project>
   <project name="name2" intern="True">
     <directories>
-      <OriginalPath>D:\Test\ordner2</OriginalPath>
-      <ExternPath>E:\Test\ordner2</ExternPath>
+      <OriginalPath>D\Test\ordner2</OriginalPath>
+      <ExternPath>E\Test\ordner2</ExternPath>
     </directories>
   </project>
   <project name="name3_4" intern="False">
     <directories>
-      <OriginalPath>D:\Test\ordner3</OriginalPath>
-      <ExternPath>E:\Test\ordner3</ExternPath>
+      <OriginalPath>D\Test\ordner3</OriginalPath>
+      <ExternPath>E\Test\ordner3</ExternPath>
     </directories>
     <directories>
-      <OriginalPath>D:\Test\ordner4</OriginalPath>
-      <ExternPath>E:\Test\ordner4</ExternPath>
+      <OriginalPath>D\Test\ordner4</OriginalPath>
+      <ExternPath>E\Test\ordner4</ExternPath>
     </directories>
   </project>
   <project name="Test5" intern="True">
     <directories>
-      <OriginalPath>D:\Test\ordner5</OriginalPath>
-      <ExternPath>E:\Test\ordner5</ExternPath>
+      <OriginalPath>D\Test\ordner5</OriginalPath>
+      <ExternPath>E\Test\ordner5</ExternPath>
     </directories>
     <directories>
-      <OriginalPath>D:/Test</OriginalPath>
-      <ExternPath>D:/Test</ExternPath>
+      <OriginalPath>D\Test</OriginalPath>
+      <ExternPath>D\Test</ExternPath>
     </directories>
   </project>
 </projects>
