@@ -11,7 +11,7 @@ namespace Memory_Manager
 {
     public static class InExport
     {
-        private static XDocument docSettings;
+        private static XDocument docSettings = null!;        //TODO check again
 
         public static Settings ImportSettings(string path)
         {

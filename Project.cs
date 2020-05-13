@@ -65,15 +65,18 @@ namespace Memory_Manager
             {
                 directories.RemoveAt(Convert.ToInt32(Console.ReadLine()));        //deletes the dir
             }
-            catch (Exception e){
+            catch (Exception){
                 throw new Exception("could not cast input");
             }
         }
         
         private static void DirectoryMove(string sourceDirName, string destDirName, bool copySubDirs)
         {
-            //from https://docs.microsoft.com/en-us/dotnet/standard/io/how-to-copy-directories adapted
+            //Copies the directories an all sub directories and files and deletes the source files afterwards.
+            //just moving does not work in between different devices (obviously)
             
+            //from https://docs.microsoft.com/en-us/dotnet/standard/io/how-to-copy-directories adapted
+
             Console.WriteLine("move: " + sourceDirName + "\n to: " + destDirName);
 
             // Get the subdirectories for the specified directory.

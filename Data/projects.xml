@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <projects>
-  <project name="name1" intern="True">
+  <project name="name1" intern="False">
     <directories>
       <OriginalPath>D\Test\ordner1</OriginalPath>
       <ExternPath>E\Test\ordner1</ExternPath>

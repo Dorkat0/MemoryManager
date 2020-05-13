@@ -54,6 +54,7 @@ namespace Memory_Manager
                         PrintProjectList(projects);
                         break;
                     case "x": //save an exit programm
+                        Console.WriteLine("saving...");
                         InExport.ExportSettings(settings);
                         InExport.ExportProjects(projects, PathProjects);
                         exit = true;
@@ -100,6 +101,8 @@ namespace Memory_Manager
                         Console.WriteLine("You have to enter s, a, c or x");
                         break;
                 }
+                
+                
             }
         }
 
@@ -165,5 +168,8 @@ namespace Memory_Manager
                 }
             }
         }
+        
+
+
     }
 }
