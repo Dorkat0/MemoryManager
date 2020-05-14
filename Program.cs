@@ -65,8 +65,7 @@ namespace Memory_Manager
                 }
             }
         }
-
-
+        
         private static void HandleProject(Project project) //chose project
         {
             bool exitProject = false;
@@ -156,7 +155,7 @@ namespace Memory_Manager
 
         private static int CheckIntInput()        //tries to cast the user input into an int
         {
-            while (true)    //TODO not ideal
+            while (true)
             {
                 try
                 {
@@ -168,8 +167,5 @@ namespace Memory_Manager
                 }
             }
         }
-        
-
-
     }
 }

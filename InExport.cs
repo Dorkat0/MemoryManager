@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Xml;
 using System.Xml.Linq;
 
 namespace Memory_Manager
 {
     public static class InExport
     {
-        private static XDocument docSettings = null!;        //TODO check again
+        private static XDocument docSettings = null!;
 
         public static Settings ImportSettings(string path)
         {
@@ -55,7 +51,6 @@ namespace Memory_Manager
             {
                 throw new InvalidDataException("The projects.xml file is not correct");
             }
-
         }
 
         public static void ExportSettings(Settings settings)

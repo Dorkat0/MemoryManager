@@ -112,10 +112,8 @@ namespace Memory_Manager
                 }
             }
         }
-
         
         //geter & Setter
-
         public string Name { get; set; }
 
         public bool Intern { get; set; }
