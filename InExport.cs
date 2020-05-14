@@ -26,7 +26,6 @@ namespace Memory_Manager
                 return settings;
             } else
             {
-                //TODO why is else not active
                 throw new InvalidDataException("The Setting.xml file is not correct");
             }
         }
@@ -54,7 +53,6 @@ namespace Memory_Manager
             }
             else
             {
-                //TODO why is else not active
                 throw new InvalidDataException("The projects.xml file is not correct");
             }
 

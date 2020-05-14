@@ -6,37 +6,34 @@ namespace Memory_Manager
 {
     public class Project
     {
-        private List<Tuple<string, string>> directories = new List<Tuple<string, string>>();
-        private string name;        //project name
-        private bool intern;        //currently the files are intern / extern stored
-
         public Project(string name, bool intern)
         {
-            this.name = name;
-            this.intern = intern;
+            Name = name;
+            Intern = intern;
         }
 
         public void AddDirectory(string orig, string ext)
         {
-            directories.Add(new Tuple<string, string>(orig, ext));
+            Directories.Add(new Tuple<string, string>(orig, ext));
         }
 
         public void SwitchInternExtern()
         {
-            if (intern)
+            if (Intern)
             {        //from intern to extern
-                foreach (Tuple<string, string> dir in directories)
+                foreach (var dir in Directories)
                 {
                     //Console.WriteLine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName + "\\" + dir.Item1 );
                     DirectoryMove(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName +"\\" +
                                   dir.Item1, Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName+ "\\" +
-                                    dir.Item2, true);        //for testing
+                                    dir.Item2, true); 
+                    //for testing
                     //DirectoryMove(dir.Item1, dir.Item2, true);        //original
                 }
             }
             else
             {       //from extern to intern
-                foreach (Tuple<string, string> dir in directories)
+                foreach (var dir in Directories)
                 {
                     DirectoryMove(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName+ "\\" +
                                   dir.Item2, Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName+ "\\" +
@@ -44,16 +41,16 @@ namespace Memory_Manager
                     //DirectoryMove(dir.Item2, dir.Item1, true);    //original
                 }
             }
-            intern = !intern;
+            Intern = !Intern;        //switch to the opposite
             
         }
         
         public void PrintsAllDirectories()
         {
             int i = 0;
-            foreach (var variable in directories)
+            foreach (var variable in Directories)
             {
-                Console.WriteLine(i + ": " + variable.Item1 +" " + variable.Item2);
+                Console.WriteLine(i++ + ": " + variable.Item1 +" " + variable.Item2);
             }
         }
 
@@ -63,7 +60,7 @@ namespace Memory_Manager
             Console.WriteLine("enter the index of the directory that you want to delete");
             try
             {
-                directories.RemoveAt(Convert.ToInt32(Console.ReadLine()));        //deletes the dir
+                Directories.RemoveAt(Convert.ToInt32(Console.ReadLine()));        //deletes the dir
             }
             catch (Exception){
                 throw new Exception("could not cast input");
@@ -100,18 +97,18 @@ namespace Memory_Manager
             FileInfo[] files = dir.GetFiles();
             foreach (FileInfo file in files)
             {
-                string temppath = Path.Combine(destDirName, file.Name);
-                file.CopyTo(temppath, true);
+                string tempPath = Path.Combine(destDirName, file.Name);
+                file.CopyTo(tempPath, true);
                 file.Delete();
             }
 
             // If copying subdirectories, copy them and their contents to new location.
             if (copySubDirs)
             {
-                foreach (DirectoryInfo subdir in dirs)
+                foreach (DirectoryInfo subDir in dirs)
                 {
-                    string temppath = Path.Combine(destDirName, subdir.Name);
-                    DirectoryMove(subdir.FullName, temppath, copySubDirs);
+                    string tempPath = Path.Combine(destDirName, subDir.Name);
+                    DirectoryMove(subDir.FullName, tempPath, copySubDirs);
                 }
             }
         }
@@ -119,23 +116,10 @@ namespace Memory_Manager
         
         //geter & Setter
 
-        public string Name
-        {
-            get => name;
-            set => name = value;
-        }
+        public string Name { get; set; }
 
-        public bool Intern
-        {
-            get => intern;
-            set => intern = value;
-        }
+        public bool Intern { get; set; }
 
-        public List<Tuple<string, string>> Directories
-        {
-            get => directories;
-            set => directories = value;
-        }
-        
+        public List<Tuple<string, string>> Directories { get; set; } = new List<Tuple<string, string>>();
     }
 }
