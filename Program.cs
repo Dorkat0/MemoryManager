@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
+using System.Windows.Forms;
 
 namespace Memory_Manager
 {
@@ -17,8 +17,10 @@ namespace Memory_Manager
             Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName +
             "./Data/projects.xml";
 
+        [STAThread]
         public static void Main(string[] args)
         {
+
             //import settings and projects
             Settings settings = InExport.ImportSettings(PathSettings);
             List<Project> projects = InExport.ImportProjects(PathProjects);
@@ -143,8 +145,12 @@ namespace Memory_Manager
 
         private static string UserInputPath()            //takes the path and validates it
         {
-            Console.WriteLine("Enter the Path");
+            Console.WriteLine("Enter the Path or enter d to get the choose Folder dialog");
             string path = Console.ReadLine();
+            if (path == "d") 
+            {
+                path = openFolderDialog();
+            }
             while (!Directory.Exists(path))
             {
                 Console.WriteLine("The path is not valid, please enter another path:");
@@ -166,6 +172,22 @@ namespace Memory_Manager
                     Console.WriteLine("please enter an valid integer:");
                 }
             }
+        }
+
+        private static string openFolderDialog()
+        {
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
+            if (fbd.ShowDialog() == DialogResult.OK)
+            {
+                return fbd.SelectedPath;
+                /*foreach (var path in Directory.GetFiles(fbd.SelectedPath))
+                {
+                    Console.WriteLine(path); // full path
+                    Console.WriteLine(System.IO.Path.GetFileName(path)); // file name
+                }*/
+            }
+
+            return "test";
         }
     }
 }
