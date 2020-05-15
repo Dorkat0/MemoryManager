@@ -32,10 +32,4 @@
       <ExternPath>D\Test</ExternPath>
     </directories>
   </project>
-  <project name="Test1" intern="True">
-    <directories>
-      <OriginalPath>E:\Eigene Daten\C#\RiderProjects\E\TestDialog</OriginalPath>
-      <ExternPath>E:\Eigene Daten\C#\RiderProjects\D\Test\FileDialog</ExternPath>
-    </directories>
-  </project>
 </projects>

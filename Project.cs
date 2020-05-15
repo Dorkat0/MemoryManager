@@ -26,7 +26,7 @@ namespace Memory_Manager
                     //Console.WriteLine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName + "\\" + dir.Item1 );
                     DirectoryMove(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName +"\\" +
                                   dir.Item1, Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName+ "\\" +
-                                    dir.Item2, true); 
+                                    dir.Item2, true);
                     //for testing
                     //DirectoryMove(dir.Item1, dir.Item2, true);        //original
                 }
@@ -50,20 +50,32 @@ namespace Memory_Manager
             int i = 0;
             foreach (var variable in Directories)
             {
-                Console.WriteLine(i++ + ": " + variable.Item1 +" " + variable.Item2);
+                Console.WriteLine($"\n{i++}: {variable.Item1} {variable.Item2}");
             }
+            if (i ==0) {Console.WriteLine("\nNo directory entered in this project");}
         }
 
         public void RemoveDirectory()
         {
             PrintsAllDirectories();
             Console.WriteLine("enter the index of the directory that you want to delete");
+            int index;
             try
             {
-                Directories.RemoveAt(Convert.ToInt32(Console.ReadLine()));        //deletes the dir
+                index = Convert.ToInt32(Console.ReadLine());        //deletes the dir
+                
             }
             catch (Exception){
                 throw new Exception("could not cast input");
+            }
+
+            if (Directories.Count > index)
+            {
+                Directories.RemoveAt(index);
+            }
+            else
+            {
+                Console.WriteLine("Noting to delete at this index");
             }
         }
         
@@ -74,7 +86,7 @@ namespace Memory_Manager
             
             //from https://docs.microsoft.com/en-us/dotnet/standard/io/how-to-copy-directories adapted
 
-            Console.WriteLine("move: " + sourceDirName + "\n to: " + destDirName);
+            Console.WriteLine($"move: {sourceDirName}\n to: {destDirName}");
 
             // Get the subdirectories for the specified directory.
             DirectoryInfo dir = new DirectoryInfo(sourceDirName);
@@ -82,8 +94,7 @@ namespace Memory_Manager
             if (!dir.Exists)
             {
                 throw new DirectoryNotFoundException(
-                    "Source directory does not exist or could not be found: "
-                    + sourceDirName);
+                    $"Source directory does not exist or could not be found: {sourceDirName}");
             }
 
             DirectoryInfo[] dirs = dir.GetDirectories();

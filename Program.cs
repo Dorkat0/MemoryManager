@@ -24,7 +24,8 @@ namespace Memory_Manager
             //import settings and projects
             Settings settings = InExport.ImportSettings(PathSettings);
             List<Project> projects = InExport.ImportProjects(PathProjects);
-
+            
+            Console.WriteLine("--------------");
             Console.WriteLine("Memory Manager");
 
             //-----------Main UI---------------
@@ -38,31 +39,40 @@ namespace Memory_Manager
                         ChangeSettings(settings);
                         break;
                     case "a": //add project
-                        Console.WriteLine("Enter the project name");
+                        Console.WriteLine("\nEnter the project name");
                         projects.Add(new Project(Console.ReadLine(), true));
                         HandleProject(projects.Last());
                         break;
                     case "c": //chose project
                         PrintProjectList(projects);
-                        Console.WriteLine("enter the index of the chosen project");
+                        Console.WriteLine("\nEnter the index of the chosen project");
                         HandleProject(projects[CheckIntInput()]);
                         break;
                     case "d": //delete project
                         PrintProjectList(projects);
-                        Console.WriteLine("enter the index of the project you want to delete");
-                        projects.RemoveAt(CheckIntInput());
+                        Console.WriteLine("\nEnter the index of the project you want to delete");
+                        int index = CheckIntInput();
+                        if (projects.Count > index)
+                        {
+                            projects.RemoveAt(index);
+                        }
+                        else
+                        {
+                            Console.WriteLine("Noting to delete at this index");
+                        }
+                        
                         break;
                     case "l": //list projects
                         PrintProjectList(projects);
                         break;
                     case "x": //save an exit programm
-                        Console.WriteLine("saving...");
+                        Console.WriteLine("\nsaving...");
                         InExport.ExportSettings(settings);
                         InExport.ExportProjects(projects, PathProjects);
                         exit = true;
                         break;
                     default: //wrong input
-                        Console.WriteLine("You have to enter s, a, c, l, x");
+                        Console.WriteLine("\nYou have to enter s, a, c, l, x");
                         break;
                 }
             }
@@ -73,7 +83,7 @@ namespace Memory_Manager
             bool exitProject = false;
             while (!exitProject) //loop until x is pressed
             {
-                Console.WriteLine(project.Name + " currently " + (project.Intern ? " intern" : " extern")+
+                Console.WriteLine($"\nProject:\n{project.Name} currently {(project.Intern ? "intern" : "extern")}" +
                         "\na.. add directories to project\nl.. list all directories from project" +
                         "\nd.. delete directories from project\ns.. switch Intern/Extern\nx.. leave project"
                     );
@@ -109,11 +119,11 @@ namespace Memory_Manager
 
         private static void PrintProjectList(List<Project> projects)        //prints the projects with "index"
         {
+            Console.WriteLine("\n");
             int i = 0;
             foreach (var p in projects)
             {
-                Console.WriteLine(i + ": " + p.Name + (p.Intern ? " intern" : " extern"));
-                i++;
+                Console.WriteLine($"{i++}: {p.Name} {(p.Intern ? "intern" : "extern")}");
             }
         }
 
@@ -122,9 +132,7 @@ namespace Memory_Manager
             bool exitSettings = false;
             while (!exitSettings)
             {
-                Console.WriteLine("\no.. change original path");
-                Console.WriteLine("e.. change external path");
-                Console.WriteLine("x.. exit settings");
+                Console.WriteLine("Settings:\no.. change original path\ne.. change external path\nx.. exit settings");
                 switch (Console.ReadLine())
                 {
                     case "o":    
@@ -145,11 +153,11 @@ namespace Memory_Manager
 
         private static string UserInputPath()            //takes the path and validates it
         {
-            Console.WriteLine("Enter the Path or enter d to get the choose Folder dialog");
+            Console.WriteLine("Enter the Path or enter d to get the chosen Folder dialog");
             string path = Console.ReadLine();
             if (path == "d") 
             {
-                path = openFolderDialog();
+                path = OpenFolderDialog();
             }
             while (!Directory.Exists(path))
             {
@@ -167,27 +175,18 @@ namespace Memory_Manager
                 {
                     return Convert.ToInt32(Console.ReadLine());        
                 }
-                catch (InvalidCastException)
+                catch (Exception)
                 {
                     Console.WriteLine("please enter an valid integer:");
                 }
             }
         }
 
-        private static string openFolderDialog()
+        private static string OpenFolderDialog()
         {
             FolderBrowserDialog fbd = new FolderBrowserDialog();
-            if (fbd.ShowDialog() == DialogResult.OK)
-            {
-                return fbd.SelectedPath;
-                /*foreach (var path in Directory.GetFiles(fbd.SelectedPath))
-                {
-                    Console.WriteLine(path); // full path
-                    Console.WriteLine(System.IO.Path.GetFileName(path)); // file name
-                }*/
-            }
-
-            return "test";
+            fbd.ShowDialog();
+            return fbd.SelectedPath;
         }
     }
 }
